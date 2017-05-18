@@ -12,9 +12,10 @@ CACHE_DIR=$2  # -> use this dir for caching between compiles
 ENV_DIR=$3  # -> environment variables are stored as files inside here
 INSTALL_DIR="$BUILD_DIR/.heroku/vendor/buildout"  # -> after buildout is
 # finished, copy results to this dir so they get compressed into a Heroku slug
-UI_URL=https://launchpad.net/plone/5.0/5.0.4/+download/Plone-5.0.4-UnifiedInstaller.tgz
-UI_TARBALL=Plone-5.0.4-UnifiedInstaller.tgz
-UI_DIR=Plone-5.0.4-UnifiedInstaller
+PLONE_VERSION=5.0.7
+BUILDOUT_CACHE_FILE=buildout-cache.tar.bz2
+BUILDOUT_CACHE_DIR=buildout-cache
+BUILDOUT_CACHE_URL=http://dist.plone.org/release/$PLONE_VERSION/$BUILDOUT_CACHE_FILE
 
 
 # make sure dirs exist
@@ -31,17 +32,13 @@ if [ -d $CACHE_DIR/bin ]; then
 else
     echo "Cache empty, let's fix that" | indent
     echo "Prime with Unified Installer cache" | indent
-    curl -OL $UI_URL
-    echo "Unpacking Installer" | indent
-    tar xfz $UI_TARBALL
-    cd $UI_DIR
-    echo "Unpacking Installer cache" | indent
-    tar xfj packages/buildout-cache.tar.bz2
+    curl -OL $BUILDOUT_CACHE_URL
+    echo "Unpacking cache" | indent
+    tar xfj buildout-cache.tar.bz2
     echo "Moving cache eggs to build directory" | indent
-    cp -r buildout-cache/eggs $BUILD_DIR/
+    cp -r $BUILDOUT_CACHE_DIR/eggs $BUILD_DIR/
     echo "Clean up Installer files" | indent
-    cd ..
-    rm -rf $UI_TARBALL $UI_DIR
+    rm -rf $BUILDOUT_CACHE_FILE $BUILDOUT_CACHE_DIR
 
 fi
 
