@@ -12,7 +12,7 @@ CACHE_DIR=$2  # -> use this dir for caching between compiles
 ENV_DIR=$3  # -> environment variables are stored as files inside here
 INSTALL_DIR="$BUILD_DIR/.heroku/vendor/buildout"  # -> after buildout is
 # finished, copy results to this dir so they get compressed into a Heroku slug
-PLONE_VERSION=5.0.7
+PLONE_VERSION=5.0.8
 BUILDOUT_CACHE_FILE=buildout-cache.tar.bz2
 BUILDOUT_CACHE_DIR=buildout-cache
 BUILDOUT_CACHE_URL=http://dist.plone.org/release/$PLONE_VERSION/$BUILDOUT_CACHE_FILE
